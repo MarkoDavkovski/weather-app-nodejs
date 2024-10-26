@@ -1,3 +1,4 @@
+import { BASE_URL } from "../../constants";
 const weatherForm = document.getElementById("weatherForm");
 const forecastInfo = document.getElementById("forecastInfo");
 const errorMessage = document.getElementById("errorMessage");
@@ -23,7 +24,7 @@ const getForecast = async (city) => {
     errorMessage.style.display = "none";
     forecastInfo.style.display = "none";
 
-    const response = await fetch(`http://localhost:3000/weather?city=${city}`);
+    const response = await fetch(`${BASE_URL}/weather?city=${city}`);
     if (!response.ok) {
       throw new Error(`Error, city not found: ${city}`);
     }
