@@ -24,7 +24,7 @@ const getForecast = async (city) => {
     forecastInfo.style.display = "none";
 
     const response = await fetch(
-      `https://weather-app-nodejs-three.vercel.app/weather?city=${city}`
+      `https://weather-app-nodejs-delta.vercel.app/weather?city=${city}`
     );
     debugger;
     if (!response.ok) {
