@@ -22,40 +22,47 @@ hbs.registerPartials(partialsPath);
 //Setup static directory to serve
 app.use(express.static(publicDirectoryPath));
 
+//Routes
 app.get("/", (req, res) => {
   res.render("index", { title: "Weather", name: "Marko" });
 });
 
 app.get("/weather", async (req, res) => {
   const cityParam = req.query.city;
-  if (!req.query.city)
-    return res.status(400).send("Error: Please provide a city.");
-
-  try {
-    const forecastData = await forecast(cityParam);
-    if (!forecastData)
-      return res.send({ message: "No data found for requested city" });
-    res.send(forecastData);
-  } catch (error) {
-    res.status(500).send({ error: error.message });
+  if (!cityParam) {
+    return res.status(400).json({ error: "Please provide a city." });
   }
+
+  const forecastData = await forecast(cityParam);
+  if (!forecastData) {
+    return res.status(404).json({ error: "No data found for requested city" });
+  }
+
+  res.status(200).json(forecastData);
 });
 
 app.get("/help", (req, res) => {
   res.render("help", { title: "Help Me", name: "Marko" });
 });
-app.get("/help/*", (req, res) => {
-  res.render("errorPage", { title: "Help article not found!", name: "Marko" });
-});
 app.get("/about", (req, res) => {
   res.render("about", { title: "About me", name: "Marko" });
 });
+// Handle undefined routes
+app.get("/help/*", (req, res) => {
+  res.status(404).render("errorPage", {
+    title: "Error 404. Page not found!",
+    name: "Marko",
+  });
+});
+
 app.get("*", (req, res) => {
   res.render("errorPage", {
     title: "Error 404. Page not found!",
     name: "Marko",
   });
 });
+
+//Start server
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
