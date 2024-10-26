@@ -16,6 +16,11 @@ export const forecast = async (city) => {
       console.log(chalk.blue(`Weather: ${current.weather_descriptions[0]}`));
       console.log(chalk.blue(`Temperature: ${current.temperature}°C`));
       console.log(chalk.blue(`Feels Like: ${current.feelslike}°C`));
+      return {
+        weather_descriptions: current.weather_descriptions[0],
+        feelsLike: current.feelslike,
+        temperature: current.temperature,
+      };
     } else {
       console.error(chalk.red("No weather data available."));
     }
