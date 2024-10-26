@@ -2,6 +2,7 @@ const weatherForm = document.getElementById("weatherForm");
 const forecastInfo = document.getElementById("forecastInfo");
 const errorMessage = document.getElementById("errorMessage");
 const loadingMessage = document.getElementById("loadingMessage");
+const BASE_URL = window.location.origin;
 
 const displayForecast = (data) => {
   if (data.error) {
@@ -23,9 +24,7 @@ const getForecast = async (city) => {
     errorMessage.style.display = "none";
     forecastInfo.style.display = "none";
 
-    const response = await fetch(
-      `https://weather-app-nodejs-delta.vercel.app/weather?city=${city}`
-    );
+    const response = await fetch(`${BASE_URL}/weather?city=${city}`);
     debugger;
     if (!response.ok) {
       throw new Error(`Error, city not found: ${city}`);
