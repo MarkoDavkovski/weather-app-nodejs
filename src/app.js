@@ -33,9 +33,11 @@ app.get("/weather", async (req, res) => {
 
   try {
     const forecastData = await forecast(cityParam);
+    if (!forecastData)
+      return res.send({ message: "No data found for requested city" });
     res.send(forecastData);
   } catch (error) {
-    res.status(500).send(`Error: ${error.message}`);
+    res.status(500).send({ error: error.message });
   }
 });
 
